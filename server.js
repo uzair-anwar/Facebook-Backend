@@ -1,12 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const routes = require("./src/routes");
+var path = require("path");
+const routes = require("./src/routes/routes");
 require("dotenv").config();
 const port = process.env.PORT;
 const app = express();
 
-app.use(express.static("./public"));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -17,4 +18,10 @@ app.use(
 );
 
 app.use("/", routes);
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+app.listen(port, (err) => {
+  if (err) {
+    return console.log(`Con not listion on pot ${PORT}`);
+  }
+  console.log(`Example app listening on port ${port}!`);
+});
