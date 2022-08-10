@@ -48,7 +48,7 @@ exports.login = async (req, res, next) => {
         message: "Account does not exist",
       });
     } else {
-      if (comparePassword(req.body.password, tempUser.password) === true) {
+      if (comparePassword(req.body.password, tempUser.password)) {
         let token = createJWT(tempUser);
         res.send({
           status: 200,
