@@ -2,7 +2,7 @@ const { body, validationResult } = require("express-validator");
 
 exports.signupValidation = [
   body("name")
-    .exists()
+    .notEmpty()
     .withMessage("Name can not be empty")
     .isLength({ max: 25 })
     .withMessage("the name must have maximum length of 25")
@@ -11,14 +11,14 @@ exports.signupValidation = [
     .trim(),
 
   body("email")
-    .exists()
+    .notEmpty()
     .withMessage("Email can not be empty")
     .isEmail()
     .withMessage("Invalid email address")
     .trim(),
 
   body("password")
-    .exists()
+    .notEmpty()
     .withMessage("Password can not be empty")
     .isLength({ min: 6 })
     .withMessage("Password must have minimum 6 character")
@@ -27,7 +27,10 @@ exports.signupValidation = [
   function (req, res, next) {
     let errorValidation = validationResult(req);
     if (errorValidation.array().length > 0) {
-      res.send({ status: 400, error: errorValidation.array() });
+      res.send({
+        status: 400,
+        error: errorValidation.array(),
+      });
     } else {
       next();
     }
@@ -36,14 +39,14 @@ exports.signupValidation = [
 
 exports.loginValidation = [
   body("email")
-    .exists()
+    .notEmpty()
     .withMessage("Email can not be empty")
     .isEmail()
     .withMessage("Invalid email address")
     .trim(),
 
   body("password")
-    .exists()
+    .notEmpty()
     .withMessage("Password can not be empty")
     .isLength({ min: 6 })
     .withMessage("Password must have minimum 6 character")
@@ -52,8 +55,8 @@ exports.loginValidation = [
   function (req, res, next) {
     let errorValidation = validationResult(req);
     if (errorValidation.array().length > 0) {
-      return res.status(400).json({
-        title: "An error occured",
+      return res.send({
+        status: 400,
         error: errorValidation.array(),
       });
     }

@@ -26,14 +26,14 @@ exports.signup = async (req, res, next) => {
         });
       } else {
         res.send({
-          status: 400,
+          status: 401,
           message: "Account can not be created",
         });
       }
     }
   } catch (error) {
     res.send({
-      status: 401,
+      status: 400,
       result: error.message,
     });
   }
