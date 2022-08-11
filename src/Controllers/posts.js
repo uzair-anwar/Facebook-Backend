@@ -7,6 +7,7 @@ exports.createPost = async (req, res, next) => {
       content: req.body.content,
       userId: req.body.userId,
     });
+
     if (newPost) {
       res.send({
         status: 201,
@@ -29,6 +30,7 @@ exports.createPost = async (req, res, next) => {
 exports.getAllPosts = async (req, res, next) => {
   try {
     const posts = await post.findAll();
+
     if (posts.length > 0) {
       res.send({
         status: 200,
@@ -36,7 +38,7 @@ exports.getAllPosts = async (req, res, next) => {
       });
     } else {
       res.send({
-        status: 400,
+        status: 204,
         message: "No post exists",
       });
     }
@@ -47,17 +49,25 @@ exports.getAllPosts = async (req, res, next) => {
     });
   }
 };
+
 exports.editPost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updatedPost = await post.update(
+    const [updatedPost] = await post.update(
       { title: req.body.title, content: req.body.content },
       { where: { id: id } }
     );
-    if (updatedPost[0] === 1) {
-      res.send({ status: 200 });
+
+    if (updatedPost > 0) {
+      res.send({
+        status: 200,
+        message: "Post updated successfully",
+      });
     } else {
-      res.send({ status: 400 });
+      res.send({
+        status: 400,
+        message: "Post can not updated",
+      });
     }
   } catch (error) {
     res.send({
@@ -70,15 +80,16 @@ exports.editPost = async (req, res, next) => {
 exports.deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const rowDeleted = await post.destroy({
+    const deletedPosts = await post.destroy({
       where: {
         id: id,
       },
     });
-    if (rowDeleted === 1) {
-      res.send({ status: 200 });
+
+    if (deletedPosts > 0) {
+      res.send({ status: 200, message: "Post successfully deleted" });
     } else {
-      res.send({ status: 400 });
+      res.send({ status: 400, message: "Post can not be deleted" });
     }
   } catch (error) {
     res.send({

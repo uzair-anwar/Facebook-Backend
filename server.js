@@ -30,7 +30,6 @@ app.use("/post", postRoutes);
 
 user.hasMany(post);
 post.belongsTo(user);
-sequelize.sync();
 
 app.listen(port, (err) => {
   if (err) {
