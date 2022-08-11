@@ -5,8 +5,6 @@ const {
 } = require("../utils/hashedPassword");
 const { createJWT } = require("../utils/createJWT");
 
-const expireDuration = 15 * 24 * 60 * 60 * 1000;
-
 exports.signup = async (req, res, next) => {
   try {
     const existingUser = await user.findOne({
@@ -55,11 +53,11 @@ exports.login = async (req, res, next) => {
       comparePassword(req.body.password, result.password).then((response) => {
         if (response) {
           let token = createJWT(result);
-          res.cookie("accessToken", token, {
-            expires: new Date(Date.now() + expireDuration),
-            httpOnly: true,
+          res.send({
+            status: 200,
+            accessToken: token,
+            result: result,
           });
-          res.send({ status: 200, result: result });
         } else {
           res.send({
             status: 401,
@@ -75,11 +73,4 @@ exports.login = async (req, res, next) => {
       result: error.message,
     });
   }
-};
-
-exports.logout = (req, res, next) => {
-  res.clearCookie("accessToken").send({
-    status: 200,
-    message: "Successfully logged out",
-  });
 };
