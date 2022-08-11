@@ -55,13 +55,11 @@ exports.login = async (req, res, next) => {
       comparePassword(req.body.password, result.password).then((response) => {
         if (response) {
           let token = createJWT(result);
-          res
-            .cookie("accessToken", token, {
-              expires: new Date(Date.now() + expireDuration),
-              httpOnly: true,
-            })
-            .status(400)
-            .send({ result: result });
+          res.cookie("accessToken", token, {
+            expires: new Date(Date.now() + expireDuration),
+            httpOnly: true,
+          });
+          res.send({ status: 200, result: result });
         } else {
           res.send({
             status: 401,
