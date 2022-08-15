@@ -55,7 +55,7 @@ exports.editPost = async (req, res, next) => {
     const { id } = req.params;
     const [updatedPost] = await post.update(
       { title: req.body.title, content: req.body.content },
-      { where: { id: id } }
+      { where: { id: id, userId: req.body.userId } }
     );
 
     if (updatedPost > 0) {
@@ -66,7 +66,7 @@ exports.editPost = async (req, res, next) => {
     } else {
       res.send({
         status: 400,
-        message: "Post can not updated",
+        message: "you can not update this Post",
       });
     }
   } catch (error) {
@@ -83,13 +83,14 @@ exports.deletePost = async (req, res, next) => {
     const deletedPosts = await post.destroy({
       where: {
         id: id,
+        userId: req.body.userId,
       },
     });
 
     if (deletedPosts > 0) {
       res.send({ status: 200, message: "Post successfully deleted" });
     } else {
-      res.send({ status: 400, message: "Post can not be deleted" });
+      res.send({ status: 400, message: "You can not delete this post" });
     }
   } catch (error) {
     res.send({
