@@ -1,4 +1,4 @@
-const user = require("../Database/models/user");
+const user = require("../database/models/user");
 const {
   comparePassword,
   createHashPassword,
@@ -7,10 +7,11 @@ const { createJWT } = require("../utils/createJWT");
 
 exports.signup = async (req, res, next) => {
   try {
-    const duplicateUser = await user.findOne({
+    const existingUser = await user.findOne({
       where: { email: req.body.email },
     });
-    if (duplicateUser) {
+
+    if (existingUser) {
       res.send({ status: 409, message: "Account already exists" });
     } else {
       let hashedPassword = createHashPassword(req.body.password);
@@ -19,6 +20,7 @@ exports.signup = async (req, res, next) => {
         email: req.body.email,
         password: hashedPassword,
       });
+
       if (newUser) {
         res.send({
           status: 201,
@@ -26,14 +28,14 @@ exports.signup = async (req, res, next) => {
         });
       } else {
         res.send({
-          status: 400,
+          status: 401,
           message: "Account can not be created",
         });
       }
     }
   } catch (error) {
     res.send({
-      status: 401,
+      status: 400,
       result: error.message,
     });
   }
@@ -41,27 +43,29 @@ exports.signup = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
-    const tempUser = await user.findOne({ where: { email: req.body.email } });
-    if (!tempUser) {
+    const result = await user.findOne({ where: { email: req.body.email } });
+    if (!result) {
       res.send({
         status: 400,
         message: "Account does not exist",
       });
     } else {
-      if (comparePassword(req.body.password, tempUser.password)) {
-        let token = createJWT(tempUser);
-        res.send({
-          status: 200,
-          accessToken: token,
-          result: tempUser,
-        });
-      } else {
-        res.send({
-          status: 401,
-          accessToken: null,
-          message: "Password does not match",
-        });
-      }
+      comparePassword(req.body.password, result.password).then((response) => {
+        if (response) {
+          let token = createJWT(result);
+          res.send({
+            status: 200,
+            accessToken: token,
+            result: result,
+          });
+        } else {
+          res.send({
+            status: 401,
+            accessToken: null,
+            message: "Password does not match",
+          });
+        }
+      });
     }
   } catch (error) {
     res.send({
