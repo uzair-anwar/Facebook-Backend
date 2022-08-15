@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-In this project, we have some features like accounts, posts. Users can create an account and log in lately. They can see other's posts and also create a post. They can also edit or delete their post. They can also a post in draft. They can edit or delete or publish them as well.
+This project has backend of Facebook clone application. In this project we have some features like accounts, posts. Users can create an account and log in lately. They can see other's posts and also create a post. They can also edit or delete their post.
 
 ## Version
 
@@ -14,21 +14,11 @@ We use this for making posts, It's looks like a social application.
 
 ## Features
 
-#### Accounts:
+ - Accounts
+ - Posts
+ - Draft
+ - See all posts
 
-The user can create his account by giving his name, email and password. Then by using his email or password, he can log into the application.
-
-#### Posts:
-
-Users can see all the posts which include his or other users' posts. And he can create a new post, update and delete his post.
-
-#### Draft:
-
-Users can save a post in draft, and they can also comment on a post, edit their comments or delete them.
-
-#### See all posts:
-
-An unauthorized user only see posts; He can't update or delete a post. He can't comment on any post.
 
 ## Built with (languages)
 
@@ -76,7 +66,7 @@ To Start Server:
 
 `npm start`
 
-## Steps for read-only access
+## Steps for read-only access locally
 
 To start the express server, run the following
 
@@ -84,7 +74,7 @@ To start the express server, run the following
 npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) and take a look around.
+Open [http://localhost:8000](http://localhost:8000) locally means on your browser and take a look around.
 
 ## Database
 
