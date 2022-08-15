@@ -1,27 +1,30 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-var path = require("path");
-const routes = require("./src/routes/routes");
-require("dotenv").config();
+const path = require("path");
+const authRoutes = require("./src/routes/authRoutes");
 const port = process.env.PORT;
 const app = express();
+
+require("dotenv").config();
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: [`${process.env.FRONTEND_URL}`],
     credentials: true,
   })
 );
 
-app.use("/", routes);
+app.use("/auth", authRoutes);
 
-app.listen(port, (err) => {
+app.listen(process.env.PORT, (err) => {
   if (err) {
-    return console.log(`Con not listion on pot ${PORT}`);
+    return console.log(`Connection not listion on port ${process.env.PORT}`);
   }
-  console.log(`Example app listening on port ${port}!`);
+  console.log(`Facebook app listening on port ${process.env.PORT}!`);
 });
