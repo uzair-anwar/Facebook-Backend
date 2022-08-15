@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../connection");
-const user = sequelize.define(
-  "user",
+const post = sequelize.define(
+  "post",
   {
     id: {
       type: DataTypes.INTEGER(11),
@@ -9,29 +9,26 @@ const user = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
+    title: {
       type: DataTypes.STRING(300),
       allowNull: false,
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    password: {
-      type: DataTypes.STRING(300),
+    content: {
+      type: DataTypes.STRING(1234),
       allowNull: false,
     },
   },
   {
-    tableName: "users",
+    tableName: "posts",
   }
 );
 
-user.associate = (models) => {
-  user.hasMany(models.post, {
-    onDelete: "cascade",
+post.associate = (models) => {
+  post.belongsTo(models.user, {
+    foreignKey: {
+      allowNull: false,
+    },
   });
 };
 
-module.exports = user;
+module.exports = post;
