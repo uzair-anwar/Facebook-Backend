@@ -4,12 +4,8 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const authRoutes = require("./src/routes/authRoutes");
 const postRoutes = require("./src/routes/postRoutes");
-const sequelize = require("./src/Database/connection");
-require("dotenv").config();
-const post = require("./src/Database/models/post");
-const user = require("./src/Database/models/user");
-
-const port = process.env.PORT;
+const post = require("./src/database/models/post");
+const user = require("./src/database/models/user");
 const app = express();
 
 require("dotenv").config();

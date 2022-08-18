@@ -24,7 +24,9 @@ const nameValidation = () => {
       .notEmpty()
       .withMessage("Name can not be empty")
       .isLength({ max: 25 })
-      .withMessage("the name must have maximum length of 25")
+      .withMessage("Name must have maximum length of 25")
+      .isLength({ min: 3 })
+      .withMessage("Name must have minimum length of 3")
       .matches(/^[aA-zZ\s]+$/)
       .withMessage("Only alphabets are allowed for name ")
       .trim(),
