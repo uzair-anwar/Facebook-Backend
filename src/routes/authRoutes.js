@@ -7,7 +7,7 @@ const {
 } = require("../middlewares/authValidations");
 const router = express.Router();
 
-router.get("/login", loginValidation(), validate, login);
-router.get("/signup", nameValidation(), loginValidation(), validate, signup);
+router.post("/login", loginValidation(), validate, login);
+router.post("/signup", nameValidation(), loginValidation(), validate, signup);
 
 module.exports = router;

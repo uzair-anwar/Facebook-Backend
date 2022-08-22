@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const path = require("path");
 const env = process.env.NODE_ENV || "development";
-const config = require(path.join(__dirname, "config", "config.json"))[env];
+const config = require(path.join(__dirname, "config", "config.js"))[env];
 
 const sequelize = new Sequelize(
   config.database,
@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
   config.password,
   {
     host: config.host,
-    dialect: config.dialect,
+    dialect: "postgres",
     operatorsAliases: false,
     logging: false,
   }
