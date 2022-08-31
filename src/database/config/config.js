@@ -9,18 +9,12 @@ module.exports = {
     host: DB_HOST,
     port: DB_PORT,
   },
-  test: {
-    username: DB_USERNAME,
-    password: DB_PASSWORD,
-    database: DB_NAME,
-    host: DB_HOST,
-    port: DB_PORT,
-  },
   production: {
     username: DB_USERNAME,
     password: DB_PASSWORD,
     database: DB_NAME,
     host: DB_HOST,
     port: DB_PORT,
+    use_env_variable: "DATABASE_URL",
   },
 };
