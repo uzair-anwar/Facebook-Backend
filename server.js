@@ -25,8 +25,8 @@ app.use(
   })
 );
 
-app.use("auth", authRoutes);
-app.use("post", postRoutes);
+app.use("/auth", authRoutes);
+app.use("/post", postRoutes);
 
 user.hasMany(post);
 post.belongsTo(user);
