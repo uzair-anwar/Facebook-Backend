@@ -11,6 +11,8 @@ const app = express();
 
 require("dotenv").config();
 
+let port = process.env.SERVER_PORT || 3000;
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(cookieParser());
@@ -30,11 +32,9 @@ user.hasMany(post);
 post.belongsTo(user);
 sequelize.sync();
 
-app.listen(process.env.SERVER_PORT, (err) => {
+app.listen(port, (err) => {
   if (err) {
-    return console.log(
-      `Connection not listion on port ${process.env.SERVER_PORT}`
-    );
+    return console.log(`Connection not listion on port ${port}`);
   }
-  console.log(`Facebook app listening on port ${process.env.SERVER_PORT}!`);
+  console.log(`Facebook app listening on port ${port}!`);
 });
