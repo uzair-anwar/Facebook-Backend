@@ -6,6 +6,9 @@ const config = require(path.join(__dirname, "config", "config.js"))[env];
 const sequelize = new Sequelize(config.db_url, {
   host: config.host,
   dialect: "postgres",
+  dialectOptions: {
+    ssl: true,
+  },
   operatorsAliases: false,
   logging: false,
 });
