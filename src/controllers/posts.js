@@ -1,4 +1,4 @@
-const post = require("../Database/models/post");
+const post = require("../database/models/post");
 
 exports.createPost = async (req, res, next) => {
   try {
@@ -55,7 +55,7 @@ exports.editPost = async (req, res, next) => {
     const { id } = req.params;
     const [updatedPost] = await post.update(
       { title: req.body.title, content: req.body.content },
-      { where: { id: id, userId: req.body.userId } }
+      { where: { id: id } }
     );
 
     if (updatedPost > 0) {
@@ -83,7 +83,6 @@ exports.deletePost = async (req, res, next) => {
     const deletedPosts = await post.destroy({
       where: {
         id: id,
-        userId: req.body.userId,
       },
     });
 

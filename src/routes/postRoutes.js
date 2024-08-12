@@ -5,9 +5,10 @@ const {
   editPost,
   deletePost,
   getAllPosts,
-} = require("../Controllers/posts");
+} = require("../controllers/posts");
 const { verifyToken } = require("../middlewares/authVerifyJWT");
 const { postValidation } = require("../middlewares/postValidations");
+const { userAutherization } = require("../middlewares/userAutherization");
 router.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Headers",
@@ -17,8 +18,12 @@ router.use((req, res, next) => {
 });
 
 router.post("/create", [verifyToken, postValidation], createPost);
-router.put("/edit/:id", [verifyToken, postValidation], editPost);
-router.delete("/:id", verifyToken, deletePost);
+router.put(
+  "/edit/:id",
+  [verifyToken, userAutherization, postValidation],
+  editPost
+);
+router.delete("/:id", [verifyToken, userAutherization], deletePost);
 router.get("/show", verifyToken, getAllPosts);
 
 module.exports = router;

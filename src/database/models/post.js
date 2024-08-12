@@ -4,7 +4,7 @@ const post = sequelize.define(
   "post",
   {
     id: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
